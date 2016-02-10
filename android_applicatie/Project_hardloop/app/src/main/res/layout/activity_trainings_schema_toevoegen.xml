@@ -9,4 +9,77 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.niek.project_hardloop.TrainingsSchema_toevoegen">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/T_title_E_naam"
+        android:text="@string/training_naam"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:id="@+id/E_naam"
+        android:layout_below="@id/T_title_E_naam"
+        android:inputType="text"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/T_title_trainingssoort"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/E_naam"
+        android:text="@string/trainings_soort"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/S_TrainingsSchemaSoort"
+        android:layout_below="@id/T_title_trainingssoort"
+        android:layout_marginTop="5dp"
+        android:entries="@array/soort"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/T_title_e_lengt"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/S_TrainingsSchemaSoort"
+        android:text="@string/trainings_tijd"/>
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/E_length"
+        android:inputType="number"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/T_title_e_lengt"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/S_LengthSoort"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/T_title_e_lengt"
+        android:entries="@array/lengthe"
+        android:layout_marginEnd="110dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/T_title_omschrijving"
+        android:text="@string/omschrijving"
+        android:layout_below="@id/E_length"
+        android:layout_marginTop="5dp"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/E_omschrijving"
+        android:inputType="textImeMultiLine|textAutoComplete|textCapSentences|textAutoCorrect"
+        android:layout_below="@+id/T_title_omschrijving"/>
 </RelativeLayout>

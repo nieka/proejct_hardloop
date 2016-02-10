@@ -4,6 +4,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
+    <string name="opslaan">Opslaan</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -14,6 +15,28 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_trwy">trwy</string>
+    <string name="login_probleem">Er kon niet ingelogt worden</string>
+
+    <!-- Strng related to trainingsschama toevoegen-->
+    <string name="training_naam">Trainingschema naam</string>
+    <string name="trainings_soort">Trainings soort</string>
+    <string name="trainings_tijd">Trainings lengte</string>
+    <string name="training_toevoegen">Training toevoegen</string>
+    <string name="omschrijving">Omschrijving:</string>
+
     <string name="title_activity_home">HomeActivity</string>
+
+
+    <array name="lengthe">
+        <item>km</item>
+        <item>Minuten</item>
+        <item>Uren</item>
+    </array>
+
+    <array name="soort">
+        <item>Hardlopen</item>
+        <item>Lopen</item>
+        <item>Fietsen</item>
+    </array>
+
 </resources>

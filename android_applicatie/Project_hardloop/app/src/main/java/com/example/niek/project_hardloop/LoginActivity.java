@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -86,5 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onError(String message) {
         Log.e(TAG,"Authenticatie probleem");
+        Toast.makeText(this,R.string.login_probleem,Toast.LENGTH_SHORT).show();
+
     }
 }

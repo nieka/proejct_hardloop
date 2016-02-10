@@ -21,6 +21,11 @@ public class LoginPresenter implements GoogleApiClient.OnConnectionFailedListene
     public LoginPresenter(LoginView loginView, DatabaseHandler databaseHandler){
         this.loginView = loginView;
         this.databaseHandler = databaseHandler;
+
+        //check if the user is already has singd in
+        if(databaseHandler.getUserCount()  == 1){
+            loginView.onLogin();
+        }
     }
 
     public void handleSignInResult(GoogleSignInResult result) {
@@ -29,7 +34,13 @@ public class LoginPresenter implements GoogleApiClient.OnConnectionFailedListene
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            User user = new User(acct.getId(),acct.getEmail(),acct.getDisplayName(),acct.getPhotoUrl().toString());
+            User user = null;
+            if (acct.getPhotoUrl() == null) {
+                user = new User(acct.getId(), acct.getEmail(), acct.getDisplayName(), null);
+            } else {
+                user = new User(acct.getId(), acct.getEmail(), acct.getDisplayName(), acct.getPhotoUrl().toString());
+            }
+
             databaseHandler.setUser(user);
             System.out.println(acct.getDisplayName());
             loginView.onLogin();

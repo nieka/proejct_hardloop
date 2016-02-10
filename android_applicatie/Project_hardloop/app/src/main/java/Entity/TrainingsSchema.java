@@ -7,14 +7,27 @@ package Entity;
 public class TrainingsSchema {
     private int id;
     private int lengte;
+    private String soort;
+    private String lengteSoort;
     private String naam;
     private String omschrijving;
 
-    public TrainingsSchema(int id, int lengte, String naam, String omschrijving) {
+    /*Constrcutor voor sqllite db*/
+    public TrainingsSchema(int id, int lengte, String naam, String omschrijving, String soort, String lengteSoort) {
         this.id = id;
         this.lengte = lengte;
         this.naam = naam;
         this.omschrijving = omschrijving;
+        this.soort = soort;
+        this.lengteSoort = lengteSoort;
+    }
+
+    public TrainingsSchema(int lengte, String naam, String omschrijving, String soort, String lengteSoort) {
+        this.lengte = lengte;
+        this.naam = naam;
+        this.omschrijving = omschrijving;
+        this.soort = soort;
+        this.lengteSoort = lengteSoort;
     }
 
     public String getOmschrijving() {
@@ -49,5 +62,11 @@ public class TrainingsSchema {
         this.naam = naam;
     }
 
+    public String getSoort() {
+        return soort;
+    }
 
+    public String getLengteSoort() {
+        return lengteSoort;
+    }
 }
