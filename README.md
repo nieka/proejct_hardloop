@@ -1,7 +1,6 @@
-A android application to learn how to make a android hardloop applcation wich uses the following technieks:
--Firebase as a database to save data
--GPS tracking while you run
--A choaching voice dynamische added
-- statiscs of your runs
-- Choic your own music
-- Evryting in matarial desgn
+Project hardloop is an Android application where you can make and store your own training scheme. This application uses the following techniques:
+- Firebase as a database to save data
+- Google sign-in to sign in to the application
+- Material design for the GUI
+- SQL lite database to store some information
+
