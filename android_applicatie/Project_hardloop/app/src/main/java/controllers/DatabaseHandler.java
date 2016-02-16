@@ -20,10 +20,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final static int DATABASE_VERSION = 1;
 
     //database table naams
-    private final static String TABLE_TRAININGSSCHEMA = "trainingsSchema";
-    private final static String TABLE_TRAINING = "training";
-    private final static String TABLE_GPSPOINT = "GPSPoint";
-    private final static String TABLE_USER = "user";
+    public final static String TABLE_TRAININGSSCHEMA = "trainingsSchema";
+    public final static String TABLE_TRAINING = "training";
+    public final static String TABLE_GPSPOINT = "GPSPoint";
+    public final static String TABLE_USER = "user";
 
     //trainingsschema table collum names
     private final static String TS_KEY_ID = "trainingsSchema_id";

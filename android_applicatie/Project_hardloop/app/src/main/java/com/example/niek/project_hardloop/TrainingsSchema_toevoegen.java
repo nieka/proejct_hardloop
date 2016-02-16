@@ -26,12 +26,12 @@ public class TrainingsSchema_toevoegen extends AppCompatActivity implements Trai
 
     /*Training toevoegen*/
     public void trainingToevoegen(){
+        System.out.println("oplaan trainingschema");
         EditText editTextNaam = (EditText) findViewById(R.id.E_naam);
         EditText editTextLengte = (EditText) findViewById(R.id.E_length);
         EditText editTextOmschrijving = (EditText) findViewById(R.id.E_omschrijving);
         Spinner spinnerSoort = (Spinner) findViewById(R.id.S_TrainingsSchemaSoort);
         Spinner spinnerLengtheSoort = (Spinner) findViewById(R.id.S_LengthSoort);
-        //int lengte, String naam, String omschrijving, String soort, String lengteSoort
         addSchemaPresenter.addTrainingSchema(Integer.valueOf(editTextLengte.getText().toString()),
                 editTextNaam.getText().toString(),editTextOmschrijving.getText().toString(),
                 spinnerSoort.getSelectedItem().toString(),spinnerLengtheSoort.getSelectedItem().toString());
