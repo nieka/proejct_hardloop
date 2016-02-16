@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -52,14 +53,16 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_home, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.trainingsschemaOpslaan:
+            case R.id.uitloggen:
                 uitloggen();
                 return true;
             default:
@@ -69,13 +72,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     private void uitloggen()
     {
-        // TODO: 12-2-2016 Zorgen dat de gebruiker uitlogt
-
-    }
-
-    @Override
-    public void showTrainingsSchema() {
-
+        homePresenter.uitloggen();
     }
 
     @Override

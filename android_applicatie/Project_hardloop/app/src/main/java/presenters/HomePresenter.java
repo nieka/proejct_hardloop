@@ -19,4 +19,9 @@ public class HomePresenter {
     public void loadTrainingsSchemas(){
         view.loadTrainingData(databaseHandler.getTrainingSchemas("SELECT  * FROM " + DatabaseHandler.TABLE_TRAININGSSCHEMA));
     }
+
+    public void uitloggen(){
+        databaseHandler.removeUser();
+        view.toLogin();
+    }
 }

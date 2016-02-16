@@ -123,6 +123,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return aantal;
     }
 
+    public void removeUser(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TABLE_USER, "",null);
+    }
+
     //crud methodes trainingsschema
     public void addTrainingsSchema(TrainingsSchema trainingsSchema){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -164,7 +169,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
          cursor.close();
 
          return list;
-     }
+    }
 
     public int getTrainingsSchemaCount(){
         String countQuery = "SELECT  * FROM " + TABLE_TRAININGSSCHEMA;
