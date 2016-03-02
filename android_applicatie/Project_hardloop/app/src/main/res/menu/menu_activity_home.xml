@@ -5,4 +5,10 @@
         android:text="@string/uitloggen"
         android:title="@string/uitloggen"
         />
+    <item
+        android:id="@+id/delete"
+        android:text="@string/delete"
+        android:title="@string/delete"
+        />
+
 </menu>

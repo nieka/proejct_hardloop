@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onLogin() {
         Log.d(TAG,"Inloggen");
         startActivity(new Intent(this,HomeActivity.class));
+        finish();
     }
 
     @Override

@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     private TrainingList trainingList;
     private HomePresenter homePresenter;
     private FloatingActionButton fab;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +44,15 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
                 startActivity(new Intent(HomeActivity.this, TrainingsSchema_toevoegen.class));
             }
         });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_home, menu);
+        togleDeleteitem();
         return true;
     }
 
@@ -58,6 +62,9 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
         switch (item.getItemId()) {
             case R.id.uitloggen:
                 uitloggen();
+                return true;
+            case R.id.delete:
+                deleteTrainingschema();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -69,6 +76,21 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
         homePresenter.uitloggen();
     }
 
+    private void deleteTrainingschema(){
+        homePresenter.deleteTraining();
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
+    }
+
+    private void togleDeleteitem(){
+        MenuItem item = menu.findItem(R.id.delete);
+        if(item.isVisible()){
+            item.setVisible(false);
+        } else {
+            item.setVisible(true);
+        }
+    }
+
     @Override
     public void toLogin() {
         startActivity(new Intent(this, LoginActivity.class));
@@ -78,15 +100,12 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     @Override
     public void loadTrainingData(List<TrainingsSchema> list)
     {
-        System.out.println("load trainingen");
         trainingList = new TrainingList();
         System.out.println(getResources().getConfiguration().orientation);
         if(getFragmentManager().findFragmentById(R.id.list) == null || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            System.out.println("potrait load");
             trainingList.setList(list);
             getFragmentManager().beginTransaction().add(R.id.container, trainingList, "list").commit();
         } else {
-            System.out.println("landscape load");
             TrainingList fragment = (TrainingList) getFragmentManager().findFragmentById(R.id.list);
             fragment.setList(list);
         }
@@ -94,6 +113,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     @Override
     public void onItemSelected(int position) {
         fab.setVisibility(View.INVISIBLE);
+        togleDeleteitem();
         if(getFragmentManager().findFragmentById(R.id.list) == null){
             DetailFragment fragment = new DetailFragment();
             fragment.setText(homePresenter.getTrainingSchemaAtPosition(position));
@@ -107,11 +127,10 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     @Override
     public void onBackPressed() {
         fab.setVisibility(View.VISIBLE);
-        System.out.println("Back  pressed");
+        togleDeleteitem();
         // Catch back action and pops from backstack
         // (if you called previously to addToBackStack() in your transaction)
         if (getFragmentManager().getBackStackEntryCount() > 0){
-            System.out.println("back naar vorige fragment");
             getFragmentManager().popBackStack();
         }
         // Default action on back pressed

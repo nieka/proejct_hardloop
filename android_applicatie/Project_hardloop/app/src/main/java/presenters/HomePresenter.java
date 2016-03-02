@@ -11,6 +11,7 @@ public class HomePresenter {
     private DatabaseHandler databaseHandler;
     private HomeView view;
     private List<TrainingsSchema> trainingen;
+    private TrainingsSchema selectedTraining;
 
     public HomePresenter(DatabaseHandler databaseHandler, HomeView view){
         this.databaseHandler = databaseHandler;
@@ -23,8 +24,15 @@ public class HomePresenter {
         view.loadTrainingData(trainingen);
     }
 
+    public void deleteTraining(){
+        if(selectedTraining != null){
+            databaseHandler.removeTrainingSchema(selectedTraining.getId());
+        }
+    }
+
     public TrainingsSchema getTrainingSchemaAtPosition(int position){
-        return trainingen.get(position);
+        selectedTraining = trainingen.get(position);
+        return selectedTraining;
     }
 
     public void uitloggen(){

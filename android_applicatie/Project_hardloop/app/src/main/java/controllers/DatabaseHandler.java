@@ -171,6 +171,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
          return list;
     }
 
+    public void removeTrainingSchema(int id){
+        //DELETE FROM COMPANY WHERE ID = 7;
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TABLE_TRAININGSSCHEMA, TS_KEY_ID + "=" + id, null );
+    }
+
     public int getTrainingsSchemaCount(){
         String countQuery = "SELECT  * FROM " + TABLE_TRAININGSSCHEMA;
         SQLiteDatabase db = this.getReadableDatabase();

@@ -63,7 +63,6 @@ public class TrainingslistAdapter extends RecyclerView.Adapter<TrainingslistAdap
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        System.out.println("size datset: " + mDataset.size());
         return mDataset.size();
     }
 }

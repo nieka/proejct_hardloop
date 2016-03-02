@@ -27,6 +27,7 @@
 
     <string name="soort">Soort: </string>
     <string name="afstand">Afstand: </string>
+    <string name="delete">Delete</string>
 
     <string name="title_activity_home">HomeActivity</string>
 
