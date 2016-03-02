@@ -1,11 +1,10 @@
 package com.example.niek.project_hardloop;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,18 +13,18 @@ import android.view.View;
 
 import java.util.List;
 
-import Adapters.TrainingslistAdapter;
 import Entity.TrainingsSchema;
 import controllers.DatabaseHandler;
+import fragments.DetailFragment;
+import fragments.TrainingList;
 import interfaces.HomeView;
 import presenters.HomePresenter;
 
-public class HomeActivity extends AppCompatActivity implements HomeView {
+public class HomeActivity extends AppCompatActivity implements HomeView, TrainingList.OnitemSelect {
 
-    private RecyclerView traininglist;
-    private LinearLayoutManager mLayoutManager;
-
+    private TrainingList trainingList;
     private HomePresenter homePresenter;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +32,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        System.out.println("oncreate");
         homePresenter = new HomePresenter(new DatabaseHandler(this), this);
-
-        //set recylerView met data;
-        traininglist = (RecyclerView) findViewById(R.id.traininglijst);
-        mLayoutManager = new LinearLayoutManager(this);
-        traininglist.setLayoutManager(mLayoutManager);
-
         homePresenter.loadTrainingsSchemas();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,23 +71,50 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     public void toLogin() {
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
     @Override
-    public void loadTrainingData(List<TrainingsSchema> list) {
-        TrainingslistAdapter adapter = new TrainingslistAdapter(list);
-        traininglist.setAdapter(adapter);
+    public void loadTrainingData(List<TrainingsSchema> list)
+    {
+        System.out.println("load trainingen");
+        trainingList = new TrainingList();
+        System.out.println(getResources().getConfiguration().orientation);
+        if(getFragmentManager().findFragmentById(R.id.list) == null || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            System.out.println("potrait load");
+            trainingList.setList(list);
+            getFragmentManager().beginTransaction().add(R.id.container, trainingList, "list").commit();
+        } else {
+            System.out.println("landscape load");
+            TrainingList fragment = (TrainingList) getFragmentManager().findFragmentById(R.id.list);
+            fragment.setList(list);
+        }
     }
-
-    /*Test methodes*/
-
-    private void showlist(List<TrainingsSchema> list){
-        for(int i=0; i< list.size(); i++){
-            System.out.println("naam: " + list.get(i).getNaam() + " omschrijving: " + list.get(i).getOmschrijving()
-                    + " lengthe: " + list.get(i).getLengte() + " soort: " + list.get(i).getLengteSoort() + " lengthe soort: " + list.get(i).getLengteSoort() + " id: " + list.get(i).getId());
+    @Override
+    public void onItemSelected(int position) {
+        fab.setVisibility(View.INVISIBLE);
+        if(getFragmentManager().findFragmentById(R.id.list) == null){
+            DetailFragment fragment = new DetailFragment();
+            fragment.setText(homePresenter.getTrainingSchemaAtPosition(position));
+            getFragmentManager().beginTransaction().replace(R.id.container, fragment, "detail").addToBackStack("detail").commit();
+        } else {
+            DetailFragment fragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.detailview);
+            fragment.setText(homePresenter.getTrainingSchemaAtPosition(position));
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        fab.setVisibility(View.VISIBLE);
+        System.out.println("Back  pressed");
+        // Catch back action and pops from backstack
+        // (if you called previously to addToBackStack() in your transaction)
+        if (getFragmentManager().getBackStackEntryCount() > 0){
+            System.out.println("back naar vorige fragment");
+            getFragmentManager().popBackStack();
+        }
+        // Default action on back pressed
+        else super.onBackPressed();
+    }
 }

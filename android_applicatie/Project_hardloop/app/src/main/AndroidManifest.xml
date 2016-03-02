@@ -23,8 +23,14 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TrainingsSchema_toevoegen"></activity>
+        <activity android:name=".TrainingsSchema_toevoegen" />
+        <activity android:name=".TrainingDetail" />
+        <activity
+            android:name=".gridview"
+            android:label="@string/title_activity_gridview"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

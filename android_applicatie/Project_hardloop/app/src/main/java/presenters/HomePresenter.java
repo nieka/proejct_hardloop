@@ -1,15 +1,16 @@
 package presenters;
 
+import java.util.List;
+
+import Entity.TrainingsSchema;
 import controllers.DatabaseHandler;
 import interfaces.HomeView;
 
-/**
- * Created by niek on 16-2-2016.
- */
 public class HomePresenter {
 
     private DatabaseHandler databaseHandler;
     private HomeView view;
+    private List<TrainingsSchema> trainingen;
 
     public HomePresenter(DatabaseHandler databaseHandler, HomeView view){
         this.databaseHandler = databaseHandler;
@@ -17,7 +18,13 @@ public class HomePresenter {
     }
 
     public void loadTrainingsSchemas(){
-        view.loadTrainingData(databaseHandler.getTrainingSchemas("SELECT  * FROM " + DatabaseHandler.TABLE_TRAININGSSCHEMA));
+        System.out.println("get schema's");
+        trainingen = databaseHandler.getTrainingSchemas("SELECT  * FROM " + DatabaseHandler.TABLE_TRAININGSSCHEMA);
+        view.loadTrainingData(trainingen);
+    }
+
+    public TrainingsSchema getTrainingSchemaAtPosition(int position){
+        return trainingen.get(position);
     }
 
     public void uitloggen(){

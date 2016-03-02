@@ -44,7 +44,6 @@ public class TrainingslistAdapter extends RecyclerView.Adapter<TrainingslistAdap
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.trainingsitem, parent, false);
         // set the view's size, margins, paddings and layout parameters
-
         return new ViewHolder(v);
     }
 
@@ -56,7 +55,7 @@ public class TrainingslistAdapter extends RecyclerView.Adapter<TrainingslistAdap
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final String name = mDataset.get(position).getNaam();
-        final String lengte = mDataset.get(position).getLengte() + " " + mDataset.get(position).getLengteSoort();
+        final String lengte = mDataset.get(position).getLengte() + mDataset.get(position).getLengteSoort();
         holder.mTNaam.setText(name);
         holder.mTLength.setText(lengte);
     }
@@ -64,6 +63,7 @@ public class TrainingslistAdapter extends RecyclerView.Adapter<TrainingslistAdap
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
+        System.out.println("size datset: " + mDataset.size());
         return mDataset.size();
     }
 }

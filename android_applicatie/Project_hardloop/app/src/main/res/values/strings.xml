@@ -25,8 +25,10 @@
     <string name="training_toevoegen">Training toevoegen</string>
     <string name="omschrijving">Omschrijving:</string>
 
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="soort">Soort: </string>
+    <string name="afstand">Afstand: </string>
 
+    <string name="title_activity_home">HomeActivity</string>
 
     <array name="lengthe">
         <item>km</item>
@@ -39,5 +41,9 @@
         <item>Lopen</item>
         <item>Fietsen</item>
     </array>
+    <string name="title_activity_gridview">gridview</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
