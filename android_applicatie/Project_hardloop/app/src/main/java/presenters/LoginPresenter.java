@@ -10,7 +10,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import Entity.User;
 import controllers.DatabaseHandler;
 import interfaces.LoginView;
-
 public class LoginPresenter implements GoogleApiClient.OnConnectionFailedListener{
     private static final String TAG = "LoginPresener";
     private static final String AUTH_ERROR = "auth_error";
@@ -30,11 +29,10 @@ public class LoginPresenter implements GoogleApiClient.OnConnectionFailedListene
 
     public void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        System.out.println(result.getStatus());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            User user = null;
+            User user;
             if (acct.getPhotoUrl() == null) {
                 user = new User(acct.getId(), acct.getEmail(), acct.getDisplayName(), null);
             } else {

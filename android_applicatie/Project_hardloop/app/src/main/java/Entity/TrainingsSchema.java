@@ -1,10 +1,14 @@
 package Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by niek on 12-11-2015.
- * model voor workout
+ * Model voor de trainingschema informatie uit de sql lite database te halen en in een class te zetten en de informatie te kunnen gebruiken.
+ * Waarbij de class Parcelable is om hem door te kunnen geven als de orientatie van de telefoon verandert
  */
-public class TrainingsSchema {
+public class TrainingsSchema implements Parcelable {
     private int id;
     private int lengte;
     private String soort;
@@ -30,12 +34,9 @@ public class TrainingsSchema {
         this.lengteSoort = lengteSoort;
     }
 
+
     public String getOmschrijving() {
         return omschrijving;
-    }
-
-    public void setOmschrijving(String omschrijving) {
-        this.omschrijving = omschrijving;
     }
 
     public int getId() {
@@ -50,16 +51,8 @@ public class TrainingsSchema {
         return lengte;
     }
 
-    public void setLengte(int lengte) {
-        this.lengte = lengte;
-    }
-
     public String getNaam() {
         return naam;
-    }
-
-    public void setNaam(String naam) {
-        this.naam = naam;
     }
 
     public String getSoort() {
@@ -69,4 +62,38 @@ public class TrainingsSchema {
     public String getLengteSoort() {
         return lengteSoort;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.lengte);
+        dest.writeString(this.soort);
+        dest.writeString(this.lengteSoort);
+        dest.writeString(this.naam);
+        dest.writeString(this.omschrijving);
+    }
+
+    protected TrainingsSchema(Parcel in) {
+        this.id = in.readInt();
+        this.lengte = in.readInt();
+        this.soort = in.readString();
+        this.lengteSoort = in.readString();
+        this.naam = in.readString();
+        this.omschrijving = in.readString();
+    }
+
+    public static final Creator<TrainingsSchema> CREATOR = new Creator<TrainingsSchema>() {
+        public TrainingsSchema createFromParcel(Parcel source) {
+            return new TrainingsSchema(source);
+        }
+
+        public TrainingsSchema[] newArray(int size) {
+            return new TrainingsSchema[size];
+        }
+    };
 }

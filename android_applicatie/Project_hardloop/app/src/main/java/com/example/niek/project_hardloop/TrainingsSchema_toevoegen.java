@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import controllers.DatabaseHandler;
 import interfaces.TrainingsSchemaToevoegenPresenter;
@@ -21,12 +22,11 @@ public class TrainingsSchema_toevoegen extends AppCompatActivity implements Trai
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainings_schema_toevoegen);
-        this.addSchemaPresenter = new AddSchemaPresenter(this,new DatabaseHandler(this));
+        this.addSchemaPresenter = new AddSchemaPresenter(this,new DatabaseHandler(this),this);
     }
 
     /*Training toevoegen*/
     public void trainingToevoegen(){
-        System.out.println("oplaan trainingschema");
         EditText editTextNaam = (EditText) findViewById(R.id.E_naam);
         EditText editTextLengte = (EditText) findViewById(R.id.E_length);
         EditText editTextOmschrijving = (EditText) findViewById(R.id.E_omschrijving);
@@ -58,6 +58,7 @@ public class TrainingsSchema_toevoegen extends AppCompatActivity implements Trai
 
     @Override
     public void goToHome() {
+        Toast.makeText(this, R.string.training_toegevoegd, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this,HomeActivity.class);
         startActivity(intent);
     }

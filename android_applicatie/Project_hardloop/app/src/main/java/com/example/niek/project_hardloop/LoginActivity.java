@@ -16,7 +16,6 @@ import controllers.DatabaseHandler;
 import interfaces.LoginView;
 import presenters.LoginPresenter;
 
-
 /*Gebruiker kan inloggen via google+ via deze activity*/
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
 
@@ -26,14 +25,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleApiClient mGoogleApiClient;
 
     private LoginPresenter loginPresenter;
-    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        databaseHandler = new DatabaseHandler(this);
-        loginPresenter = new LoginPresenter(this,databaseHandler);
+        loginPresenter = new LoginPresenter(this,new DatabaseHandler(this));
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.

@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Project_hardloop</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="app_name">Training applicatie</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_settings">Instellingen</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -24,12 +25,16 @@
     <string name="trainings_tijd">Trainings lengte</string>
     <string name="training_toevoegen">Training toevoegen</string>
     <string name="omschrijving">Omschrijving:</string>
+    <string name="training_toegevoegd">De training is toegevoegd</string>
 
     <string name="soort">Soort: </string>
     <string name="afstand">Afstand: </string>
     <string name="delete">Delete</string>
 
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="uploading">Data uploaden</string>
+    <string name="upload_long">Data word gesynced met de cloud</string>
+
+    <string name="title_activity_home">Training lijst</string>
 
     <array name="lengthe">
         <item>km</item>
@@ -42,9 +47,10 @@
         <item>Lopen</item>
         <item>Fietsen</item>
     </array>
-    <string name="title_activity_gridview">gridview</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- Strings related to Settings -->
+    <string name="action_settings">Instellingen</string>
+    <string name="title_internet_setting">Internet instellingen</string>
+    <string name="title_internet_wifi">3G gebruiken bij uploaden data</string>
+    <string name="summary_internet_wifi">Gebruik 3G bij het uploaden van data op de server.</string>
 </resources>

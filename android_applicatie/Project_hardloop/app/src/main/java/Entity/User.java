@@ -2,6 +2,7 @@ package Entity;
 
 /**
  * Created by niek on 25-12-2015.
+ * Model voor de user informatie uit de sql lite database te halen en in een class te zetten
  */
 public class User {
     private String id;

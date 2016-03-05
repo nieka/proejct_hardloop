@@ -5,7 +5,6 @@ import java.util.List;
 import Entity.TrainingsSchema;
 import controllers.DatabaseHandler;
 import interfaces.HomeView;
-
 public class HomePresenter {
 
     private DatabaseHandler databaseHandler;
@@ -18,8 +17,8 @@ public class HomePresenter {
         this.view = view;
     }
 
+    /*Haalt de training schema's van de sql lite database op*/
     public void loadTrainingsSchemas(){
-        System.out.println("get schema's");
         trainingen = databaseHandler.getTrainingSchemas("SELECT  * FROM " + DatabaseHandler.TABLE_TRAININGSSCHEMA);
         view.loadTrainingData(trainingen);
     }
@@ -28,6 +27,18 @@ public class HomePresenter {
         if(selectedTraining != null){
             databaseHandler.removeTrainingSchema(selectedTraining.getId());
         }
+    }
+
+    public Boolean trainingSelected(){
+        return selectedTraining != null;
+    }
+
+    public TrainingsSchema getSelectedTraining(){
+        return selectedTraining;
+    }
+
+    public void setSelectedTraining(TrainingsSchema training){
+        this.selectedTraining = training;
     }
 
     public TrainingsSchema getTrainingSchemaAtPosition(int position){

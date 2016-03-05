@@ -4,58 +4,94 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import interfaces.NetworkReqeust;
 /**
  * Created by NHo on 25-9-2015.
- * This classes is used to send a http post or get request to a server
+ * Deze class word gebruikt om netwerk reqeust te doen
  */
 public class ApiConnector {
 
-    /*
-    De benodigde permissions in androidManifest:
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-        <uses-permission android:name="android.permission.INTERNET" />
-     */
+    private final static String URL = "http://student.aii.avans.nl/ict/nfjhoffm/htdocs/";
+    private NetworkReqeust callback;
+    private RequestQueue queue;
 
-    OkHttpClient client = new OkHttpClient();
+    public ApiConnector(Context context, NetworkReqeust networkReqeust){
+        this.callback = networkReqeust;
+        this.queue = Volley.newRequestQueue(context);
+    }
 
-    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-    private final static String URL = "http://192.168.40.11:99/";
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-
-    public String getMethode(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(URL + url)
-                .build();
-
-        Response response = client.newCall(request).execute();
-        return response.body().string();
+    public static Boolean hasWifiConnection(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true;
+            }
+        }
+        return false;
     }
 
+    public void getReqeust(String urlpart, final String tag){
+        // Request a string response from the provided URL.
+        String url = URL + urlpart;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("succe snetwork reqeust " + tag);
+                        callback.onSucces(response, tag);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Error network reqeust " + tag);
+                callback.onError(error, tag);
+            }
+        });
 
+        queue.add(stringRequest);
+    }
 
-    public String postMethode(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(JSON, json);
-        System.out.println(URL + url);
-        Request request = new Request.Builder()
-                .url(URL + url)
-                .post(body)
-                .build();
-        Response response = client.newCall(request).execute();
-        return response.body().string();
+    public void postReqeust(String urlpart, final String body, final String tag){
+        String url = URL + urlpart;
+        // Request a string response from the provided URL.
+        StringRequest sr = new StringRequest(Request.Method.POST,url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                callback.onSucces(response,tag);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onError(error,tag);
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<>();
+                params.put("data",body);
+
+                return params;
+            }
+        };
+        queue.add(sr);
     }
 }

@@ -15,7 +15,6 @@ import java.util.List;
 import Adapters.RecyclerItemClickListener;
 import Adapters.TrainingslistAdapter;
 import Entity.TrainingsSchema;
-
 public class TrainingList extends android.app.Fragment {
 
     public interface OnitemSelect {
@@ -28,15 +27,15 @@ public class TrainingList extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_traininglist,
+        return inflater.inflate(R.layout.fragment_traininglist,
                 container, false);
-        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /*recyleview met training lijst vullen met data*/
         if(trainingsSchemaList != null){
             RecyclerView traininglist = (RecyclerView) view.findViewById(R.id.traininglijst);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(traininglist.getContext());
@@ -83,7 +82,6 @@ public class TrainingList extends android.app.Fragment {
                     new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
-                            System.out.println("clicked");
                             mCallback.onItemSelected(position);
                         }
                     })
