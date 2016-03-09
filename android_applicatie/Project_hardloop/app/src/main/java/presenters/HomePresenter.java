@@ -29,6 +29,10 @@ public class HomePresenter {
         }
     }
 
+    public void deleteTraining(int position){
+        databaseHandler.removeTrainingSchema(trainingen.get(position).getId());
+    }
+
     public Boolean trainingSelected(){
         return selectedTraining != null;
     }

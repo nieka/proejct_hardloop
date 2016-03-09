@@ -36,6 +36,11 @@
 
     <string name="title_activity_home">Training lijst</string>
 
+    <string name="bevesting_delete">Weet u zeker dat u de training wil verwijderen?</string>
+    <string name="ja">Ja</string>
+    <string name="nee">Nee</string>
+
+
     <array name="lengthe">
         <item>km</item>
         <item>Minuten</item>

@@ -2,6 +2,7 @@ package com.example.niek.project_hardloop;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -10,8 +11,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +32,7 @@ import interfaces.HomeView;
 import presenters.HomePresenter;
 import services.DataSync;
 
-public class HomeActivity extends AppCompatActivity implements HomeView, TrainingList.OnitemSelect {
+public class HomeActivity extends AppCompatActivity implements HomeView, TrainingList.listFragmentCallback {
     /*Fragment tags*/
     private static final String F_LIST = "List";
     private static final String F_DETAIL = "Detail";
@@ -135,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
                 uitloggen();
                 return true;
             case R.id.delete:
-                deleteTrainingschema();
+                deleteTrainingschema(-1);
                 return true;
             case R.id.action_settings:
                 Intent intent = new Intent(this,SettingsActivity.class);
@@ -150,14 +153,47 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
         homePresenter.uitloggen();
     }
 
-    private void deleteTrainingschema() {
-        // TODO: 9-3-2016 toon dialog voor conformation
-        homePresenter.deleteTraining();
-        SimpleDateFormat format = new SimpleDateFormat(DataSync.DATAFORMAT);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.edit().putString(DataSync.EDITDATESP, format.format(new Date()) ).apply();
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
+    private void deleteTrainingschema(final int position) {
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+        LayoutInflater li = LayoutInflater.from(this);
+        View errorDialog = li.inflate(R.layout.fragment_error_dialog, null);
+
+        alertDialogBuilder.setView(errorDialog);
+        // set dialog message
+        alertDialogBuilder
+                .setNegativeButton(R.string.nee,new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        if(position != -1){
+                            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                            finish();
+                        }
+                    }
+                })
+                .setPositiveButton(R.string.ja,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (position == -1) {
+                                    homePresenter.deleteTraining();
+                                } else {
+                                    homePresenter.deleteTraining(position);
+                                }
+
+                                SimpleDateFormat format = new SimpleDateFormat(DataSync.DATAFORMAT);
+                                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(HomeActivity.this);
+                                sharedPreferences.edit().putString(DataSync.EDITDATESP, format.format(new Date())).apply();
+                                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                                finish();
+                            }
+                        });
+
+        // create alert dialog
+        alertDialogBuilder.setTitle(R.string.bevesting_delete);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 
     private void togleDeleteitem(){
@@ -211,6 +247,11 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
             DetailFragment fragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.detailview);
             fragment.setText(homePresenter.getTrainingSchemaAtPosition(position));
         }
+    }
+
+    @Override
+    public void deleteTraining(int position) {
+        deleteTrainingschema(position);
     }
 
     @Override
