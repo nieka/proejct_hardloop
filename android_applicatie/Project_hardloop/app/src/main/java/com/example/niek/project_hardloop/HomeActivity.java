@@ -151,6 +151,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     }
 
     private void deleteTrainingschema() {
+        // TODO: 9-3-2016 toon dialog voor conformation
         homePresenter.deleteTraining();
         SimpleDateFormat format = new SimpleDateFormat(DataSync.DATAFORMAT);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

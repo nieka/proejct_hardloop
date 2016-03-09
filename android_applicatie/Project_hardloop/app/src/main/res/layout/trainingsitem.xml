@@ -4,14 +4,19 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:padding="6dip" >
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/T_Naam"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:layout_marginStart="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,6 +24,6 @@
         android:id="@+id/T_lengthe"
         android:layout_below="@id/T_Naam"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginStart="30dp"/>
 
 </RelativeLayout >

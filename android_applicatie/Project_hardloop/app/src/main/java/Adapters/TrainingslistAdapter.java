@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.niek.project_hardloop.R;
@@ -23,11 +24,13 @@ public class TrainingslistAdapter extends RecyclerView.Adapter<TrainingslistAdap
         // each data item is just a string in this case
         public TextView mTNaam;
         public TextView mTLength;
+        private ImageView mImageview;
 
         public ViewHolder(View v) {
             super(v);
             mTNaam = (TextView) v.findViewById(R.id.T_Naam);
             mTLength = (TextView) v.findViewById(R.id.T_lengthe);
+            mImageview = (ImageView) v.findViewById(R.id.icon);
         }
     }
 
@@ -58,6 +61,18 @@ public class TrainingslistAdapter extends RecyclerView.Adapter<TrainingslistAdap
         final String lengte = mDataset.get(position).getLengte() + mDataset.get(position).getLengteSoort();
         holder.mTNaam.setText(name);
         holder.mTLength.setText(lengte);
+        switch (mDataset.get(position).getSoort()){
+            case "Hardlopen" :
+                holder.mImageview.setImageResource(R.drawable.ic_sports_1);
+                break;
+            case "Lopen" :
+                holder.mImageview.setImageResource(R.drawable.ic_maps_directions_walk);
+                break;
+            case "Fietsen" :
+                holder.mImageview.setImageResource(R.drawable.ic_maps_directions_bike);
+                break;
+        }
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
