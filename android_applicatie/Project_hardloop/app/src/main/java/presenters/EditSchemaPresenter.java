@@ -9,24 +9,27 @@ import java.util.Date;
 
 import Entity.TrainingsSchema;
 import controllers.DatabaseHandler;
-import interfaces.TrainingsSchemaToevoegenPresenter;
+import interfaces.EditView;
 import services.DataSync;
 
-public class AddSchemaPresenter {
+/**
+ * Created by niek on 18-3-2016.
+ */
+public class EditSchemaPresenter {
 
-    private TrainingsSchemaToevoegenPresenter view;
+    private EditView view;
     private DatabaseHandler databaseHandler;
     private SharedPreferences sharedPreferences;
 
-    public AddSchemaPresenter(TrainingsSchemaToevoegenPresenter view, DatabaseHandler databaseHandler, Context context){
-        this.view = view;
-        this.databaseHandler = databaseHandler;
+    public EditSchemaPresenter(EditView editView, Context context){
+        this.view = editView;
+        this.databaseHandler = new DatabaseHandler(context);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    /*Voegt training schema toe aan de sql lite database*/
-    public void addTrainingSchema(int lengte, String naam, String omschrijving, String soort, String lengteSoort, double latitude, double longitude){
+    public void editTraining(int id,int lengte, String naam, String omschrijving, String soort, String lengteSoort, double latitude, double longitude){
         TrainingsSchema trainingsSchema = new TrainingsSchema(lengte,naam,omschrijving,soort,lengteSoort, latitude, longitude);
+        databaseHandler.removeTrainingSchema(id);
         databaseHandler.addTrainingsSchema(trainingsSchema);
         SimpleDateFormat format = new SimpleDateFormat(DataSync.DATAFORMAT);
         sharedPreferences.edit().putString(DataSync.EDITDATESP, format.format(new Date()) ).apply();

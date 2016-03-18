@@ -106,6 +106,8 @@ public class DataSync extends Service implements NetworkReqeust{
                     jsonObject.put("omschrijving", schema.getOmschrijving());
                     jsonObject.put("editDate", s_localEditDate);
                     jsonObject.put("userid", user.getId());
+                    jsonObject.put("latitude", schema.getLatitude());
+                    jsonObject.put("longitude", schema.getLongitude());
                     json = json + jsonObject.toString();
 
                     if(i < trainingsSchemaList.size() -1){
@@ -175,7 +177,7 @@ public class DataSync extends Service implements NetworkReqeust{
             try {
                 JSONObject element = jsonArray.getJSONObject(i);
                 TrainingsSchema trainingsSchema = new TrainingsSchema(element.getInt("id"), element.getInt("lengte"),element.getString("naam"),element.getString("omschrijving"),
-                        element.getString("soort"),element.getString("lengteSoort"));
+                        element.getString("soort"),element.getString("lengteSoort"),element.getDouble("latitude"), element.getDouble("longitude"));
                 sharedPreferences.edit().putString(EDITDATESP, element.getString("editDate")).apply();
                 databaseHandler.addTrainingsSchema(trainingsSchema);
             } catch (JSONException e) {
@@ -204,7 +206,7 @@ public class DataSync extends Service implements NetworkReqeust{
         mNotificationManager.cancel(UNID);
         switch (tag){
             case TAG_EditDate:
-                SimpleDateFormat format = new SimpleDateFormat(DATAFORMAT);
+                final SimpleDateFormat format = new SimpleDateFormat(DATAFORMAT);
                 try {
                     if(!response.equals("")){
                         serverEditDate = format.parse(response);
@@ -217,6 +219,11 @@ public class DataSync extends Service implements NetworkReqeust{
                 final Handler h = new Handler();
                 h.postDelayed(new Runnable() {
                     public void run() {
+                        try {
+                            localEditDate = format.parse(sharedPreferences.getString(EDITDATESP,"1990-01-01 00:00:00"));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         System.out.println("local edit date= " + localEditDate.toString() + " server edit date= " + serverEditDate.toString());
                         if(!localEditDate.equals(serverEditDate)){
                             if(ApiConnector.isNetworkAvailable(DataSync.this) && sharedPreferences.getBoolean("internetUse",false)){
@@ -239,6 +246,7 @@ public class DataSync extends Service implements NetworkReqeust{
                 }
                 break;
             case TAG_POSTTRAINING:
+                System.out.println(response);
                 serverEditDate = localEditDate;
         }
     }

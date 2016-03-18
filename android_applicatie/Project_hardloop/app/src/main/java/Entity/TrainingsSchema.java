@@ -15,23 +15,29 @@ public class TrainingsSchema implements Parcelable {
     private String lengteSoort;
     private String naam;
     private String omschrijving;
+    private double latitude;
+    private double longitude;
 
     /*Constrcutor voor sqllite db*/
-    public TrainingsSchema(int id, int lengte, String naam, String omschrijving, String soort, String lengteSoort) {
+    public TrainingsSchema(int id, int lengte, String naam, String omschrijving, String soort, String lengteSoort, double latitude, double longitude) {
         this.id = id;
         this.lengte = lengte;
         this.naam = naam;
         this.omschrijving = omschrijving;
         this.soort = soort;
         this.lengteSoort = lengteSoort;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public TrainingsSchema(int lengte, String naam, String omschrijving, String soort, String lengteSoort) {
+    public TrainingsSchema(int lengte, String naam, String omschrijving, String soort, String lengteSoort, double latitude, double longitude) {
         this.lengte = lengte;
         this.naam = naam;
         this.omschrijving = omschrijving;
         this.soort = soort;
         this.lengteSoort = lengteSoort;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
 
@@ -63,6 +69,22 @@ public class TrainingsSchema implements Parcelable {
         return lengteSoort;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -76,6 +98,8 @@ public class TrainingsSchema implements Parcelable {
         dest.writeString(this.lengteSoort);
         dest.writeString(this.naam);
         dest.writeString(this.omschrijving);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
     }
 
     protected TrainingsSchema(Parcel in) {
@@ -85,6 +109,8 @@ public class TrainingsSchema implements Parcelable {
         this.lengteSoort = in.readString();
         this.naam = in.readString();
         this.omschrijving = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
     }
 
     public static final Creator<TrainingsSchema> CREATOR = new Creator<TrainingsSchema>() {

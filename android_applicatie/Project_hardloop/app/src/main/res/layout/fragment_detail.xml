@@ -48,4 +48,22 @@
         android:id="@+id/T_omschrijving"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/T_title_omschrijving"/>
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/T_title_locatie"
+        android:text="@string/locatie"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:layout_below="@id/T_omschrijving"/>
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:visibility="invisible"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@id/T_title_locatie"/>
+
 </RelativeLayout>

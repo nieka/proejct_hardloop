@@ -26,6 +26,8 @@
     <string name="training_toevoegen">Training toevoegen</string>
     <string name="omschrijving">Omschrijving:</string>
     <string name="training_toegevoegd">De training is toegevoegd</string>
+    <string name="training_aangepast">De training is aangepast</string>
+
 
     <string name="soort">Soort: </string>
     <string name="afstand">Afstand: </string>
@@ -39,6 +41,9 @@
     <string name="bevesting_delete">Weet u zeker dat u de training wil verwijderen?</string>
     <string name="ja">Ja</string>
     <string name="nee">Nee</string>
+    <string name="locatie_toevoegen">Voeg Locatie toe</string>
+    <string name="locatie">Locatie</string>
+    <string name="edit">Edit</string>
 
 
     <array name="lengthe">
@@ -58,4 +63,6 @@
     <string name="title_internet_setting">Internet instellingen</string>
     <string name="title_internet_wifi">3G gebruiken bij uploaden data</string>
     <string name="summary_internet_wifi">Gebruik 3G bij het uploaden van data op de server.</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_edit_training_schema">Schema aanpassen</string>
 </resources>

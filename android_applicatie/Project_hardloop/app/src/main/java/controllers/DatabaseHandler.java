@@ -28,6 +28,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final static String TS_KEY_OMSCHRIJVING= "trainingsSchema_omschrijving";
     private final static String TS_KEY_SOORT= "trainingsSchema_soort";
     private final static String TS_KEY_LENGTESOORT= "trainingsSchema_lengte_soort";
+    private final static String TS_KEY_LATITUDE= "trainingsSchema_latitude";
+    private final static String TS_KEY_LONGITUDE= "trainingsSchema_longitude";
     //user table collum names
     private final static String U_KEY_USERID = "userid";
     private final static String U_KEY_EMAIL = "email";
@@ -39,7 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //trainingsschema create statment
     private final static String CREATE_TRAININGSSCHEMA = "CREATE TABLE " + TABLE_TRAININGSSCHEMA
             +"(" + TS_KEY_ID + " INTEGER PRIMARY KEY," + TS_KEY_LENGTH + " INTEGER,"
-            + TS_KEY_NAAM + " TEXT," + TS_KEY_OMSCHRIJVING  + " TEXT," +TS_KEY_SOORT + " TEXT," + TS_KEY_LENGTESOORT + " REAL" + ")";
+            + TS_KEY_NAAM + " TEXT," + TS_KEY_OMSCHRIJVING  + " TEXT," +TS_KEY_SOORT + " TEXT," + TS_KEY_LENGTESOORT + " REAL," + TS_KEY_LATITUDE + " REAL," + TS_KEY_LONGITUDE + " REAL" + ")";
     //user create statment
     private final static String CREATE_USER = "CREATE TABLE " + TABLE_USER
             +" (" + U_KEY_USERID + " TEXT PRIMARY KEY," + U_KEY_EMAIL + " TEXT,"
@@ -132,6 +134,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TS_KEY_SOORT, trainingsSchema.getSoort());
         values.put(TS_KEY_LENGTH, trainingsSchema.getLengte());
         values.put(TS_KEY_LENGTESOORT, trainingsSchema.getLengteSoort());
+        values.put(TS_KEY_LATITUDE, trainingsSchema.getLatitude());
+        values.put(TS_KEY_LONGITUDE, trainingsSchema.getLongitude());
         // Inserting Row
         db.insert(TABLE_TRAININGSSCHEMA, null, values);
         db.close(); // Closing database connection
@@ -147,12 +151,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
          int colomIndexSoort = cursor.getColumnIndex(TS_KEY_SOORT);
          int colomIndexLength = cursor.getColumnIndex(TS_KEY_LENGTH);
          int colomIndexLegnthSoort = cursor.getColumnIndex(TS_KEY_LENGTESOORT);
+         int colomIndexLatitude = cursor.getColumnIndex(TS_KEY_LATITUDE);
+         int colomIndexLongitude = cursor.getColumnIndex(TS_KEY_LONGITUDE);
 
          cursor.moveToFirst();
          for(int i=0; i< cursor.getCount(); i++){
              TrainingsSchema traingingSchema = new TrainingsSchema(cursor.getInt(colomIndexId),cursor.getInt(colomIndexLength)
                      ,cursor.getString(colomIndexNaam),cursor.getString(colomIndexOmschrijving),
-                     cursor.getString(colomIndexSoort), cursor.getString(colomIndexLegnthSoort));
+                     cursor.getString(colomIndexSoort), cursor.getString(colomIndexLegnthSoort),
+                     cursor.getFloat(colomIndexLatitude), cursor.getFloat(colomIndexLongitude));
              list.add(traingingSchema);
              cursor.moveToNext();
          }

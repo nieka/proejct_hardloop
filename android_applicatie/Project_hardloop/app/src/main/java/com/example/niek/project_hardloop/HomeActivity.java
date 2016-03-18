@@ -20,6 +20,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +36,12 @@ import interfaces.HomeView;
 import presenters.HomePresenter;
 import services.DataSync;
 
-public class HomeActivity extends AppCompatActivity implements HomeView, TrainingList.listFragmentCallback {
+public class HomeActivity extends AppCompatActivity implements HomeView, TrainingList.listFragmentCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     /*Fragment tags*/
     private static final String F_LIST = "List";
     private static final String F_DETAIL = "Detail";
 
+    private GoogleApiClient mGoogleApiClient;
     private Boolean listview;
     private Boolean turned;
     private HomePresenter homePresenter;
@@ -57,6 +62,16 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (mGoogleApiClient == null) {
+            System.out.println("--------set google client-------------------");
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
         listview = true;
         turned = false;
         setContentView(R.layout.activity_home);
@@ -112,13 +127,14 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
         this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_home, menu);
-        togleDeleteitem();
+        togleMenuItems();
         return true;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mGoogleApiClient.connect();
         LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
                 new IntentFilter(DataSync.DATASYNC_RESULT)
         );
@@ -126,6 +142,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
 
     @Override
     protected void onStop() {
+        mGoogleApiClient.disconnect();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onStop();
     }
@@ -143,6 +160,10 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
             case R.id.action_settings:
                 Intent intent = new Intent(this,SettingsActivity.class);
                 startActivity(intent);
+            case R.id.edit:
+                Intent editIntent = new Intent(this,EditTrainingSchema.class);
+                editIntent.putExtra("trainig",homePresenter.getSelectedTraining());
+                startActivity(editIntent);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -196,16 +217,19 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
         alertDialog.show();
     }
 
-    private void togleDeleteitem(){
-        MenuItem item = menu.findItem(R.id.delete);
+    private void togleMenuItems(){
+        MenuItem delete = menu.findItem(R.id.delete);
+        MenuItem edit = menu.findItem(R.id.edit);
 
-        if(item.isVisible() && !turned){
+        if(delete.isVisible() && !turned){
             listview = true;
-            item.setVisible(false);
+            delete.setVisible(false);
+            edit.setVisible(false);
         } else {
             listview = false;
             turned = false;
-            item.setVisible(true);
+            delete.setVisible(true);
+            edit.setVisible(true);
         }
     }
 
@@ -232,7 +256,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
     @Override
     public void onItemSelected(int position) {
         fab.setVisibility(View.INVISIBLE);
-        togleDeleteitem();
+        togleMenuItems();
         if(getFragmentManager().findFragmentById(R.id.list) == null || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             DetailFragment fragment;
             if( getSupportFragmentManager().findFragmentByTag(F_DETAIL) == null){
@@ -260,7 +284,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
         // (if you called previously to addToBackStack() in your transaction)
         if(!listview){
             fab.setVisibility(View.VISIBLE);
-            togleDeleteitem();
+            togleMenuItems();
             if (getFragmentManager().getBackStackEntryCount() > 0){
                 getFragmentManager().popBackStack();
                 homePresenter.setSelectedTraining(null);
@@ -271,5 +295,19 @@ public class HomeActivity extends AppCompatActivity implements HomeView, Trainin
                 }
             }
         }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
